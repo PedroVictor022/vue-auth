@@ -6,14 +6,39 @@
          <router-link to="/register">Register</router-link>
          <router-link to="/feed">Feed</router-link>
          <router-link to="/sing-in">Sing In</router-link>
+         <button @click="handleSingOut()" v-if="isLoggedIn">Sing Out</button>
       </nav>
    </header>
+   <p>{{ isLoggedIn ? "Usuario online" : "Nao logado"}}</p>
 </template>
 
-<script>
-   export default {
-      name: "Header"
+<script setup>
+   import { onMounted, ref } from 'vue';
+   import { getAuth, onAuthStateChanged, signOut} from "firebase/auth"
+   import { useRouter } from 'vue-router';
+
+
+   const router = useRouter();
+   const isLoggedIn = ref(false);
+   let auth;
+   onMounted(() => {
+      auth = getAuth();
+      onAuthStateChanged(auth, (user) => {
+         if(user) {
+            isLoggedIn.value = true;
+         } else {
+            isLoggedIn.value = false;
+         }
+      })
+   })
+
+
+   const handleSingOut = () => {      
+      signOut(auth).then(() => {
+         router.push('/');
+      });
    }
+
 </script>
 
 <style scoped>

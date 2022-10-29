@@ -6,13 +6,37 @@
          <input type="text" placeholder="password" v-model="password">
       </div>
       <div class="btn-group">
-         <button class="btn1">Submit</button>
+         <button class="btn1" v-on:click="register()">Submit</button>
          <button class="btn2" >Sing In with Google</button>
       </div>
    </div>
 </template>
-<script>
+<script setup>
    import { ref } from 'vue';
+   import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+   import { useRouter } from 'vue-router';
+
+   const router = useRouter();
+   const email = ref("");
+   const password = ref("");
+
+   const auth = getAuth();
+   const register = () => {
+      createUserWithEmailAndPassword(auth, email.value, password.value) 
+      .then((data) => {
+         console.log(data, 'Successfullly registered');
+         console.log(auth, auth.currentUser);
+         router.push('/feed');
+      })
+      .catch((error) => {
+         console.log(error);
+         alert(error.message);
+      })
+   };
+
+   const signInWithGoogle = () => {
+
+   }
 
 
 </script>
@@ -22,8 +46,7 @@
       margin:0 auto;
       text-align: center;
       max-width:320px;
-      background-color: #222;
-      color: aliceblue;
+      color: black;
       padding: 1rem;
    }
    .form {
@@ -44,25 +67,9 @@
    }
    .btn1, .btn2 {
       transition: .2s;
-      border:none;
       padding: 0.2rem;
-      border-radius: 4px;
       cursor:pointer;
       font-weight: bold;
       font-size: 13px;
-   }
-   .btn1 {
-      background: #5517c9;
-      color: aliceblue;
-   }
-   .btn1:hover {
-      background: #7d47e0;
-   }
-   .btn2 {
-      background: #1791c9;
-      color: aliceblue;
-   }
-   .btn2:hover {
-      background: #4796e0;
    }
 </style>
