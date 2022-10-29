@@ -1,0 +1,1 @@
+import{_ as o,o as s,c as a,F as n,a as e}from"./index.53a6e34e.js";const t={},c=e("h2",null,"Bem vindo a pagina do Feed",-1),r=e("p",null,"Acesso permitido a usuarios logados no sistema!",-1);function _(d,i){return s(),a(n,null,[c,r],64)}const m=o(t,[["render",_]]);export{m as default};
