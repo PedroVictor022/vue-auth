@@ -7,13 +7,13 @@
       </div>
       <div class="btn-group">
          <button class="btn1" v-on:click="register()">Submit</button>
-         <button class="btn2" >Sing In with Google</button>
+         <button class="btn2" @click="signInWithGoogle">Sing In with Google</button>
       </div>
    </div>
 </template>
 <script setup>
    import { ref } from 'vue';
-   import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+   import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
    import { useRouter } from 'vue-router';
 
    const router = useRouter();
@@ -35,7 +35,15 @@
    };
 
    const signInWithGoogle = () => {
-
+      const providerAuth = new GoogleAuthProvider();
+      signInWithPopup(auth, providerAuth)
+      .then((result) => {
+         console.log(result.user)
+         router.push('/feed');
+      })
+      .catch((error) => {
+         
+      })
    }
 
 
